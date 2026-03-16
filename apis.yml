@@ -1,15 +1,51 @@
+aid: kyverno
 name: Kyverno
-description: Kubernetes native policy management engine for security, automation,
-  and governance. Kyverno uses Kubernetes admission controllers to validate, mutate,
-  and generate configurations using policies written as Kubernetes resources.
-url: https://kyverno.io/
+description: >-
+  Kyverno is a Kubernetes native policy management engine for security,
+  automation, and governance. It uses Kubernetes admission controllers to
+  validate, mutate, and generate configurations using policies written as
+  Kubernetes resources.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-- Policy Management
-- Kubernetes
-- Security
-- Governance
-- Cloud Native
-created: '2025'
-modified: '2025'
-apis: []
-common: []
+  - Policy Management
+  - Kubernetes
+  - Security
+  - Governance
+  - Cloud Native
+url: https://raw.githubusercontent.com/api-evangelist/kyverno/refs/heads/main/apis.yml
+created: '2025-01-01'
+modified: '2026-03-16'
+specificationVersion: '0.19'
+apis:
+  - aid: kyverno:kyverno
+    name: Kyverno
+    description: >-
+      Kyverno Kubernetes native policy management for security, automation,
+      and governance using Kubernetes admission controllers.
+    humanURL: https://kyverno.io/
+    tags:
+      - Policy
+      - Kubernetes
+      - Security
+    properties:
+      - type: Documentation
+        url: https://kyverno.io/docs/introduction/
+      - type: Getting Started
+        url: https://kyverno.io/docs/installation/
+common:
+  - type: Website
+    url: https://kyverno.io/
+  - type: Documentation
+    url: https://kyverno.io/docs/
+  - type: Getting Started
+    url: https://kyverno.io/docs/installation/
+  - type: GitHub Organization
+    url: https://github.com/kyverno/kyverno
+  - type: Blog
+    url: https://kyverno.io/blog/
+  - type: Community
+    url: https://kyverno.io/community/
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
