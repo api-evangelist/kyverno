@@ -1,0 +1,220 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "kyverno": "https://kyverno.io/vocab#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "k8s": "https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#",
+    "oci": "https://opencontainers.org/schema#",
+    "sec": "https://w3id.org/security#",
+
+    "Policy": "kyverno:Policy",
+    "ClusterPolicy": "kyverno:ClusterPolicy",
+    "PolicyRule": "kyverno:PolicyRule",
+    "ValidationRule": "kyverno:ValidationRule",
+    "MutationRule": "kyverno:MutationRule",
+    "GenerationRule": "kyverno:GenerationRule",
+    "ImageVerificationRule": "kyverno:ImageVerificationRule",
+    "PolicyReport": "kyverno:PolicyReport",
+    "ClusterPolicyReport": "kyverno:ClusterPolicyReport",
+    "PolicyResult": "kyverno:PolicyResult",
+    "PolicyViolation": "kyverno:PolicyViolation",
+
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "schema:description",
+      "@type": "xsd:string"
+    },
+    "version": {
+      "@id": "schema:softwareVersion",
+      "@type": "xsd:string"
+    },
+
+    "policy": {
+      "@id": "kyverno:policyName",
+      "@type": "xsd:string"
+    },
+    "rule": {
+      "@id": "kyverno:ruleName",
+      "@type": "xsd:string"
+    },
+    "message": {
+      "@id": "schema:description",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "kyverno:resultStatus",
+      "@type": "xsd:string"
+    },
+    "severity": {
+      "@id": "kyverno:severity",
+      "@type": "xsd:string"
+    },
+    "category": {
+      "@id": "dcterms:subject",
+      "@type": "xsd:string"
+    },
+    "source": {
+      "@id": "dcterms:source",
+      "@type": "xsd:string"
+    },
+    "background": {
+      "@id": "kyverno:backgroundScanning",
+      "@type": "xsd:boolean"
+    },
+    "validationFailureAction": {
+      "@id": "kyverno:validationFailureAction",
+      "@type": "xsd:string"
+    },
+    "failurePolicy": {
+      "@id": "kyverno:failurePolicy",
+      "@type": "xsd:string"
+    },
+    "ready": {
+      "@id": "schema:Boolean",
+      "@type": "xsd:boolean"
+    },
+
+    "rules": {
+      "@id": "kyverno:hasRule",
+      "@container": "@set"
+    },
+    "match": {
+      "@id": "kyverno:matchCriteria",
+      "@type": "@id"
+    },
+    "exclude": {
+      "@id": "kyverno:excludeCriteria",
+      "@type": "@id"
+    },
+    "validate": {
+      "@id": "kyverno:validationSpec",
+      "@type": "@id"
+    },
+    "mutate": {
+      "@id": "kyverno:mutationSpec",
+      "@type": "@id"
+    },
+    "generate": {
+      "@id": "kyverno:generationSpec",
+      "@type": "@id"
+    },
+    "verifyImages": {
+      "@id": "kyverno:imageVerificationSpec",
+      "@container": "@set"
+    },
+    "context": {
+      "@id": "kyverno:ruleContext",
+      "@container": "@set"
+    },
+
+    "namespace": {
+      "@id": "k8s:namespace",
+      "@type": "xsd:string"
+    },
+    "namespaces": {
+      "@id": "k8s:namespace",
+      "@container": "@set"
+    },
+    "kind": {
+      "@id": "k8s:kind",
+      "@type": "xsd:string"
+    },
+    "kinds": {
+      "@id": "k8s:kind",
+      "@container": "@set"
+    },
+    "apiVersion": {
+      "@id": "k8s:apiVersion",
+      "@type": "xsd:string"
+    },
+    "uid": {
+      "@id": "schema:identifier",
+      "@type": "xsd:string"
+    },
+
+    "imageReferences": {
+      "@id": "oci:imageReference",
+      "@container": "@set"
+    },
+    "mutateDigest": {
+      "@id": "kyverno:mutateDigest",
+      "@type": "xsd:boolean"
+    },
+    "verifyDigest": {
+      "@id": "kyverno:verifyDigest",
+      "@type": "xsd:boolean"
+    },
+    "attestors": {
+      "@id": "sec:verifier",
+      "@container": "@set"
+    },
+    "publicKeys": {
+      "@id": "sec:publicKey",
+      "@type": "xsd:string"
+    },
+    "issuer": {
+      "@id": "sec:issuer",
+      "@type": "@id"
+    },
+    "subject": {
+      "@id": "sec:credentialSubject",
+      "@type": "xsd:string"
+    },
+
+    "pass": {
+      "@id": "kyverno:passCount",
+      "@type": "xsd:integer"
+    },
+    "fail": {
+      "@id": "kyverno:failCount",
+      "@type": "xsd:integer"
+    },
+    "warn": {
+      "@id": "kyverno:warnCount",
+      "@type": "xsd:integer"
+    },
+    "error": {
+      "@id": "kyverno:errorCount",
+      "@type": "xsd:integer"
+    },
+    "skip": {
+      "@id": "kyverno:skipCount",
+      "@type": "xsd:integer"
+    },
+    "summary": {
+      "@id": "kyverno:resultSummary",
+      "@type": "@id"
+    },
+    "results": {
+      "@id": "kyverno:policyResult",
+      "@container": "@set"
+    },
+
+    "synchronize": {
+      "@id": "kyverno:synchronize",
+      "@type": "xsd:boolean"
+    },
+    "tags": {
+      "@id": "schema:keywords",
+      "@container": "@set"
+    },
+
+    "creationTimestamp": {
+      "@id": "dcterms:created",
+      "@type": "xsd:dateTime"
+    },
+    "timestamp": {
+      "@id": "dcterms:date",
+      "@type": "xsd:dateTime"
+    },
+    "lastTransitionTime": {
+      "@id": "kyverno:lastTransitionTime",
+      "@type": "xsd:dateTime"
+    }
+  }
+}

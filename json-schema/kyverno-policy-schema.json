@@ -1,0 +1,1021 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kyverno.io/schemas/kyverno/policy.json",
+  "title": "Kyverno Policy",
+  "description": "Schema for Kyverno ClusterPolicy and Policy resources. Kyverno policies are Kubernetes custom resources that define validation, mutation, generation, cleanup, and image verification rules applied to cluster resources via admission controllers.",
+  "type": "object",
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "description": "API version of the Kyverno policy resource",
+      "enum": [
+        "kyverno.io/v1",
+        "kyverno.io/v2",
+        "kyverno.io/v2beta1",
+        "policies.kyverno.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "type": "string",
+      "description": "Kind of Kyverno policy resource",
+      "enum": [
+        "ClusterPolicy",
+        "Policy",
+        "ClusterCleanupPolicy",
+        "CleanupPolicy"
+      ]
+    },
+    "metadata": {
+      "$ref": "#/$defs/ObjectMeta"
+    },
+    "spec": {
+      "$ref": "#/$defs/PolicySpec"
+    },
+    "status": {
+      "$ref": "#/$defs/PolicyStatus"
+    }
+  },
+  "$defs": {
+    "ObjectMeta": {
+      "type": "object",
+      "description": "Standard Kubernetes object metadata",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the policy resource",
+          "pattern": "^[a-z0-9][a-z0-9\\-]*[a-z0-9]$",
+          "maxLength": 253
+        },
+        "namespace": {
+          "type": "string",
+          "description": "Namespace of the policy; omitted for ClusterPolicy resources",
+          "pattern": "^[a-z0-9][a-z0-9\\-]*[a-z0-9]$"
+        },
+        "annotations": {
+          "type": "object",
+          "description": "Arbitrary metadata annotations on the policy",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "labels": {
+          "type": "object",
+          "description": "Key-value labels attached to the policy resource",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "PolicySpec": {
+      "type": "object",
+      "description": "Specification of a Kyverno policy, including admission mode, background scanning, and rules",
+      "properties": {
+        "validationFailureAction": {
+          "type": "string",
+          "description": "Action taken when a validation rule fails. Audit records violations without blocking; Enforce blocks the request.",
+          "enum": ["Audit", "Enforce"],
+          "default": "Audit"
+        },
+        "validationFailureActionOverrides": {
+          "type": "array",
+          "description": "Per-namespace overrides of the validationFailureAction setting",
+          "items": {
+            "$ref": "#/$defs/ValidationFailureActionOverride"
+          }
+        },
+        "background": {
+          "type": "boolean",
+          "description": "Whether Kyverno applies this policy to existing resources via background scanning, in addition to new requests",
+          "default": true
+        },
+        "generateExisting": {
+          "type": "boolean",
+          "description": "Whether Kyverno applies generate rules to existing resources on policy creation",
+          "default": false
+        },
+        "mutateExistingOnPolicyUpdate": {
+          "type": "boolean",
+          "description": "Whether Kyverno applies mutate rules to existing resources when the policy is updated",
+          "default": false
+        },
+        "failurePolicy": {
+          "type": "string",
+          "description": "Action taken when a policy rule encounters an error during evaluation",
+          "enum": ["Ignore", "Fail"],
+          "default": "Fail"
+        },
+        "schemaValidation": {
+          "type": "boolean",
+          "description": "Whether Kyverno validates the policy schema against the OpenAPI spec of the target resource",
+          "default": true
+        },
+        "rules": {
+          "type": "array",
+          "description": "List of rules that define validations, mutations, generations, or cleanups",
+          "items": {
+            "$ref": "#/$defs/Rule"
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["rules"]
+    },
+    "ValidationFailureActionOverride": {
+      "type": "object",
+      "description": "Overrides validationFailureAction for specific namespaces",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The action to apply in the specified namespaces",
+          "enum": ["Audit", "Enforce"]
+        },
+        "namespaces": {
+          "type": "array",
+          "description": "List of namespaces to apply this override to",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["action", "namespaces"]
+    },
+    "Rule": {
+      "type": "object",
+      "description": "A single Kyverno policy rule that performs validate, mutate, generate, verifyImages, or cleanup operations",
+      "required": ["name", "match"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Unique name for the rule within the policy",
+          "maxLength": 63
+        },
+        "context": {
+          "type": "array",
+          "description": "Variables and external data fetched before rule evaluation",
+          "items": {
+            "$ref": "#/$defs/ContextEntry"
+          }
+        },
+        "match": {
+          "$ref": "#/$defs/MatchResources",
+          "description": "Resources and subjects this rule applies to"
+        },
+        "exclude": {
+          "$ref": "#/$defs/MatchResources",
+          "description": "Resources and subjects excluded from this rule"
+        },
+        "preconditions": {
+          "description": "Conditions evaluated before running the rule; rule is skipped if not met",
+          "$ref": "#/$defs/Conditions"
+        },
+        "validate": {
+          "$ref": "#/$defs/Validation",
+          "description": "Validation logic to check resource configurations"
+        },
+        "mutate": {
+          "$ref": "#/$defs/Mutation",
+          "description": "Mutation logic to modify resources before they are admitted"
+        },
+        "generate": {
+          "$ref": "#/$defs/Generation",
+          "description": "Generation logic to create new Kubernetes resources"
+        },
+        "verifyImages": {
+          "type": "array",
+          "description": "Image verification rules using Cosign or Notary signatures",
+          "items": {
+            "$ref": "#/$defs/ImageVerification"
+          }
+        }
+      }
+    },
+    "MatchResources": {
+      "type": "object",
+      "description": "Criteria for matching Kubernetes resources and subjects to a rule",
+      "properties": {
+        "any": {
+          "type": "array",
+          "description": "Match if any of these resource filters match (OR logic)",
+          "items": {
+            "$ref": "#/$defs/ResourceFilter"
+          }
+        },
+        "all": {
+          "type": "array",
+          "description": "Match only if all of these resource filters match (AND logic)",
+          "items": {
+            "$ref": "#/$defs/ResourceFilter"
+          }
+        },
+        "resources": {
+          "$ref": "#/$defs/ResourceDescription",
+          "description": "Shorthand for matching on resource properties"
+        },
+        "subjects": {
+          "type": "array",
+          "description": "Kubernetes subjects (users, groups, service accounts) to match",
+          "items": {
+            "$ref": "#/$defs/Subject"
+          }
+        },
+        "roles": {
+          "type": "array",
+          "description": "RBAC roles whose bound subjects trigger the rule",
+          "items": {
+            "type": "string"
+          }
+        },
+        "clusterRoles": {
+          "type": "array",
+          "description": "RBAC cluster roles whose bound subjects trigger the rule",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ResourceFilter": {
+      "type": "object",
+      "description": "A single resource matching filter combining resources and subjects",
+      "properties": {
+        "resources": {
+          "$ref": "#/$defs/ResourceDescription"
+        },
+        "subjects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Subject"
+          }
+        }
+      }
+    },
+    "ResourceDescription": {
+      "type": "object",
+      "description": "Describes Kubernetes resources by kind, name, namespace, labels, or annotations",
+      "properties": {
+        "kinds": {
+          "type": "array",
+          "description": "List of resource kinds to match, e.g., Pod, Deployment",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string",
+          "description": "Name or name pattern of the resource to match; supports wildcards"
+        },
+        "names": {
+          "type": "array",
+          "description": "List of resource names to match",
+          "items": {
+            "type": "string"
+          }
+        },
+        "namespaces": {
+          "type": "array",
+          "description": "List of namespaces to match; omit for cluster-scoped matching",
+          "items": {
+            "type": "string"
+          }
+        },
+        "selector": {
+          "$ref": "#/$defs/LabelSelector",
+          "description": "Label selector for matching resources"
+        },
+        "namespaceSelector": {
+          "$ref": "#/$defs/LabelSelector",
+          "description": "Label selector applied to the namespace of the resource"
+        },
+        "annotations": {
+          "type": "object",
+          "description": "Annotation key-value pairs the resource must have",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "LabelSelector": {
+      "type": "object",
+      "description": "Kubernetes label selector for matching resources",
+      "properties": {
+        "matchLabels": {
+          "type": "object",
+          "description": "Map of required label key-value pairs",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "matchExpressions": {
+          "type": "array",
+          "description": "List of label selector requirements",
+          "items": {
+            "$ref": "#/$defs/LabelSelectorRequirement"
+          }
+        }
+      }
+    },
+    "LabelSelectorRequirement": {
+      "type": "object",
+      "description": "A label selector requirement with key, operator, and optional values",
+      "required": ["key", "operator"],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Label key the requirement applies to"
+        },
+        "operator": {
+          "type": "string",
+          "description": "Operator expressing the relationship between the key and values",
+          "enum": ["In", "NotIn", "Exists", "DoesNotExist"]
+        },
+        "values": {
+          "type": "array",
+          "description": "Array of string values; required for In and NotIn operators",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Subject": {
+      "type": "object",
+      "description": "A Kubernetes RBAC subject (user, group, or service account)",
+      "required": ["kind", "name"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "Kind of the subject",
+          "enum": ["User", "Group", "ServiceAccount"]
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the subject"
+        },
+        "namespace": {
+          "type": "string",
+          "description": "Namespace of the ServiceAccount; required when kind is ServiceAccount"
+        }
+      }
+    },
+    "ContextEntry": {
+      "type": "object",
+      "description": "An entry in the rule context providing external data or variables",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the context variable accessible in the rule"
+        },
+        "apiCall": {
+          "$ref": "#/$defs/APICall",
+          "description": "Fetches data from the Kubernetes API server"
+        },
+        "configMap": {
+          "$ref": "#/$defs/ConfigMapReference",
+          "description": "Fetches data from a Kubernetes ConfigMap"
+        },
+        "imageRegistry": {
+          "$ref": "#/$defs/ImageRegistryRequest",
+          "description": "Fetches data from an image registry"
+        },
+        "variable": {
+          "description": "A JMESPath expression defining a derived variable",
+          "type": "object",
+          "properties": {
+            "value": {
+              "description": "Static value for the variable"
+            },
+            "jmesPath": {
+              "type": "string",
+              "description": "JMESPath expression to extract or transform data"
+            },
+            "default": {
+              "description": "Default value if the JMESPath expression returns nil"
+            }
+          }
+        }
+      }
+    },
+    "APICall": {
+      "type": "object",
+      "description": "Fetches data from the Kubernetes API server for use in rule context",
+      "required": ["urlPath"],
+      "properties": {
+        "urlPath": {
+          "type": "string",
+          "description": "URL path of the Kubernetes API endpoint to query",
+          "example": "/api/v1/namespaces/{{request.object.metadata.namespace}}/pods"
+        },
+        "jmesPath": {
+          "type": "string",
+          "description": "JMESPath expression to filter or transform the API response"
+        }
+      }
+    },
+    "ConfigMapReference": {
+      "type": "object",
+      "description": "Reference to a Kubernetes ConfigMap used as context data",
+      "required": ["name", "namespace"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the ConfigMap"
+        },
+        "namespace": {
+          "type": "string",
+          "description": "Namespace where the ConfigMap resides"
+        }
+      }
+    },
+    "ImageRegistryRequest": {
+      "type": "object",
+      "description": "Fetches image manifest or config data from a container registry",
+      "required": ["reference"],
+      "properties": {
+        "reference": {
+          "type": "string",
+          "description": "Container image reference to inspect",
+          "example": "ghcr.io/kyverno/kyverno:latest"
+        },
+        "jmesPath": {
+          "type": "string",
+          "description": "JMESPath expression to extract data from the image manifest"
+        }
+      }
+    },
+    "Conditions": {
+      "oneOf": [
+        {
+          "type": "array",
+          "description": "List of conditions (legacy format); all must be true",
+          "items": {
+            "$ref": "#/$defs/Condition"
+          }
+        },
+        {
+          "type": "object",
+          "description": "AnyAll condition block",
+          "properties": {
+            "any": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Condition"
+              }
+            },
+            "all": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Condition"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Condition": {
+      "type": "object",
+      "description": "A single condition evaluated against the request or resource context",
+      "required": ["key", "operator"],
+      "properties": {
+        "key": {
+          "description": "Left-hand side of the condition; supports JMESPath expressions"
+        },
+        "operator": {
+          "type": "string",
+          "description": "Comparison operator for the condition",
+          "enum": [
+            "Equals",
+            "NotEquals",
+            "AnyIn",
+            "AllIn",
+            "AnyNotIn",
+            "AllNotIn",
+            "GreaterThan",
+            "GreaterThanOrEquals",
+            "LessThan",
+            "LessThanOrEquals",
+            "DurationGreaterThan",
+            "DurationGreaterThanOrEquals",
+            "DurationLessThan",
+            "DurationLessThanOrEquals",
+            "NotExist",
+            "Exist"
+          ]
+        },
+        "value": {
+          "description": "Right-hand side value to compare the key against"
+        },
+        "message": {
+          "type": "string",
+          "description": "Optional message shown when the condition is not met"
+        }
+      }
+    },
+    "Validation": {
+      "type": "object",
+      "description": "Validation rule that checks resource configurations against defined patterns or expressions",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Error message shown when the validation fails"
+        },
+        "pattern": {
+          "description": "Kyverno pattern matching object; the resource must match this structure"
+        },
+        "anyPattern": {
+          "type": "array",
+          "description": "List of patterns; the resource must match at least one",
+          "items": {}
+        },
+        "deny": {
+          "$ref": "#/$defs/Deny",
+          "description": "Deny rule with explicit conditions for blocking requests"
+        },
+        "cel": {
+          "$ref": "#/$defs/CELExpression",
+          "description": "Common Expression Language validation expression"
+        },
+        "foreach": {
+          "type": "array",
+          "description": "Apply validation to each element of a list in the resource",
+          "items": {
+            "$ref": "#/$defs/ForEachValidation"
+          }
+        },
+        "manifests": {
+          "$ref": "#/$defs/Manifests",
+          "description": "Validates signed resource manifests"
+        }
+      }
+    },
+    "Deny": {
+      "type": "object",
+      "description": "Deny rule that blocks admission if conditions are met",
+      "properties": {
+        "conditions": {
+          "$ref": "#/$defs/Conditions",
+          "description": "Conditions that, when true, cause the request to be denied"
+        }
+      }
+    },
+    "CELExpression": {
+      "type": "object",
+      "description": "CEL-based validation expression",
+      "properties": {
+        "expressions": {
+          "type": "array",
+          "description": "List of CEL expressions to evaluate",
+          "items": {
+            "type": "object",
+            "properties": {
+              "expression": {
+                "type": "string",
+                "description": "CEL expression that must evaluate to true",
+                "example": "object.spec.replicas <= 10"
+              },
+              "message": {
+                "type": "string",
+                "description": "Message to show when the expression evaluates to false"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ForEachValidation": {
+      "type": "object",
+      "description": "Applies validation to each element in a resource list",
+      "required": ["list"],
+      "properties": {
+        "list": {
+          "type": "string",
+          "description": "JMESPath expression that returns the list to iterate over",
+          "example": "request.object.spec.containers"
+        },
+        "pattern": {
+          "description": "Pattern each element of the list must match"
+        },
+        "anyPattern": {
+          "type": "array",
+          "description": "List of patterns; each element must match at least one",
+          "items": {}
+        },
+        "deny": {
+          "$ref": "#/$defs/Deny"
+        },
+        "context": {
+          "type": "array",
+          "description": "Context entries available during foreach evaluation",
+          "items": {
+            "$ref": "#/$defs/ContextEntry"
+          }
+        },
+        "preconditions": {
+          "$ref": "#/$defs/Conditions"
+        }
+      }
+    },
+    "Manifests": {
+      "type": "object",
+      "description": "Validates signed Kubernetes resource manifests using Cosign",
+      "properties": {
+        "attestors": {
+          "type": "array",
+          "description": "List of attestors whose signatures are accepted",
+          "items": {
+            "$ref": "#/$defs/AttestorSet"
+          }
+        },
+        "annotationDomain": {
+          "type": "string",
+          "description": "Domain prefix for annotations used to store manifest signatures"
+        }
+      }
+    },
+    "Mutation": {
+      "type": "object",
+      "description": "Mutation rule that modifies resources before admission",
+      "properties": {
+        "patchStrategicMerge": {
+          "description": "Strategic merge patch to apply to the resource"
+        },
+        "patchesJson6902": {
+          "type": "string",
+          "description": "JSON Patch (RFC 6902) string to apply to the resource"
+        },
+        "foreach": {
+          "type": "array",
+          "description": "Apply mutation to each element of a list in the resource",
+          "items": {
+            "$ref": "#/$defs/ForEachMutation"
+          }
+        },
+        "targets": {
+          "type": "array",
+          "description": "List of existing resources to mutate (for mutateExisting rules)",
+          "items": {
+            "$ref": "#/$defs/TargetResourceSpec"
+          }
+        }
+      }
+    },
+    "ForEachMutation": {
+      "type": "object",
+      "description": "Applies mutation to each element in a resource list",
+      "required": ["list"],
+      "properties": {
+        "list": {
+          "type": "string",
+          "description": "JMESPath expression that returns the list to iterate over"
+        },
+        "patchStrategicMerge": {
+          "description": "Strategic merge patch applied to each list element"
+        },
+        "patchesJson6902": {
+          "type": "string",
+          "description": "JSON Patch string applied to each list element"
+        }
+      }
+    },
+    "TargetResourceSpec": {
+      "type": "object",
+      "description": "Specification of an existing resource to mutate",
+      "properties": {
+        "apiVersion": {
+          "type": "string",
+          "description": "API version of the target resource"
+        },
+        "kind": {
+          "type": "string",
+          "description": "Kind of the target resource"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the target resource; supports wildcards"
+        },
+        "namespace": {
+          "type": "string",
+          "description": "Namespace of the target resource"
+        }
+      }
+    },
+    "Generation": {
+      "type": "object",
+      "description": "Generation rule that creates new Kubernetes resources when triggered",
+      "properties": {
+        "apiVersion": {
+          "type": "string",
+          "description": "API version of the resource to generate"
+        },
+        "kind": {
+          "type": "string",
+          "description": "Kind of the resource to generate"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the resource to generate"
+        },
+        "namespace": {
+          "type": "string",
+          "description": "Namespace where the resource will be generated"
+        },
+        "synchronize": {
+          "type": "boolean",
+          "description": "Whether Kyverno keeps the generated resource in sync with the policy definition",
+          "default": false
+        },
+        "clone": {
+          "$ref": "#/$defs/CloneFrom",
+          "description": "Clone an existing resource instead of defining the spec inline"
+        },
+        "cloneList": {
+          "$ref": "#/$defs/CloneList",
+          "description": "Clone a list of existing resources"
+        },
+        "data": {
+          "description": "Inline resource definition used as the generated resource spec"
+        }
+      }
+    },
+    "CloneFrom": {
+      "type": "object",
+      "description": "Reference to an existing resource to clone when generating",
+      "required": ["name"],
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "description": "Namespace of the resource to clone"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the resource to clone"
+        }
+      }
+    },
+    "CloneList": {
+      "type": "object",
+      "description": "Clones a list of existing resources based on selector",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "description": "Namespace containing the resources to clone"
+        },
+        "kinds": {
+          "type": "array",
+          "description": "Kinds of resources to clone",
+          "items": {
+            "type": "string"
+          }
+        },
+        "selector": {
+          "$ref": "#/$defs/LabelSelector"
+        }
+      }
+    },
+    "ImageVerification": {
+      "type": "object",
+      "description": "Image verification rule that validates container image signatures and attestations",
+      "properties": {
+        "imageReferences": {
+          "type": "array",
+          "description": "List of image reference patterns to verify; supports wildcards",
+          "items": {
+            "type": "string",
+            "example": "ghcr.io/my-org/*"
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "Signature verification scheme to use",
+          "enum": ["Cosign", "Notary"]
+        },
+        "attestors": {
+          "type": "array",
+          "description": "Attestors whose signatures are acceptable",
+          "items": {
+            "$ref": "#/$defs/AttestorSet"
+          }
+        },
+        "attestations": {
+          "type": "array",
+          "description": "Attestations (e.g., SBOM, vulnerability scans) to verify",
+          "items": {
+            "$ref": "#/$defs/Attestation"
+          }
+        },
+        "mutateDigest": {
+          "type": "boolean",
+          "description": "Whether to replace the image tag with its digest after verification",
+          "default": true
+        },
+        "verifyDigest": {
+          "type": "boolean",
+          "description": "Whether to require the image to be referenced by digest",
+          "default": true
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether a matching signature must exist for the image to be admitted",
+          "default": true
+        }
+      }
+    },
+    "AttestorSet": {
+      "type": "object",
+      "description": "A set of attestors; the count field controls how many must verify",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "description": "Minimum number of attestors in this set that must verify the image",
+          "minimum": 1
+        },
+        "entries": {
+          "type": "array",
+          "description": "List of acceptable attestor entries",
+          "items": {
+            "$ref": "#/$defs/AttestorEntry"
+          }
+        }
+      }
+    },
+    "AttestorEntry": {
+      "type": "object",
+      "description": "A single acceptable attestor defined by key, keyless, or certificate",
+      "properties": {
+        "keys": {
+          "$ref": "#/$defs/StaticKeyAttestor"
+        },
+        "keyless": {
+          "$ref": "#/$defs/KeylessAttestor"
+        },
+        "certificates": {
+          "$ref": "#/$defs/CertificateAttestor"
+        }
+      }
+    },
+    "StaticKeyAttestor": {
+      "type": "object",
+      "description": "Attestor using a static public key for signature verification",
+      "properties": {
+        "publicKeys": {
+          "type": "string",
+          "description": "PEM-encoded public key or a reference to a Kubernetes secret"
+        },
+        "signatureAlgorithm": {
+          "type": "string",
+          "description": "Cryptographic algorithm used for signing",
+          "enum": ["sha224", "sha256", "sha384", "sha512"]
+        },
+        "rekor": {
+          "$ref": "#/$defs/RekorConfig"
+        }
+      }
+    },
+    "KeylessAttestor": {
+      "type": "object",
+      "description": "Attestor using Sigstore keyless signing with OIDC identity",
+      "properties": {
+        "issuer": {
+          "type": "string",
+          "description": "OIDC issuer URL for the signer",
+          "example": "https://accounts.google.com"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Email or subject of the OIDC token used to sign",
+          "example": "user@example.com"
+        },
+        "rekor": {
+          "$ref": "#/$defs/RekorConfig"
+        }
+      }
+    },
+    "CertificateAttestor": {
+      "type": "object",
+      "description": "Attestor using a certificate chain for signature verification",
+      "properties": {
+        "cert": {
+          "type": "string",
+          "description": "PEM-encoded certificate of the signer"
+        },
+        "certChain": {
+          "type": "string",
+          "description": "PEM-encoded intermediate certificate chain"
+        },
+        "roots": {
+          "type": "string",
+          "description": "PEM-encoded root certificate(s) for chain validation"
+        }
+      }
+    },
+    "RekorConfig": {
+      "type": "object",
+      "description": "Sigstore Rekor transparency log configuration for signature verification",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the Rekor transparency log server",
+          "example": "https://rekor.sigstore.dev"
+        },
+        "ignoreTlog": {
+          "type": "boolean",
+          "description": "Whether to skip Rekor transparency log verification"
+        }
+      }
+    },
+    "Attestation": {
+      "type": "object",
+      "description": "An attestation to verify, such as an SBOM or vulnerability scan result",
+      "properties": {
+        "predicateType": {
+          "type": "string",
+          "description": "Type of the in-toto predicate",
+          "example": "https://slsa.dev/provenance/v0.2"
+        },
+        "attestors": {
+          "type": "array",
+          "description": "Attestors that must have signed this attestation",
+          "items": {
+            "$ref": "#/$defs/AttestorSet"
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "description": "Conditions the attestation payload must satisfy",
+          "items": {
+            "$ref": "#/$defs/Condition"
+          }
+        }
+      }
+    },
+    "PolicyStatus": {
+      "type": "object",
+      "description": "Status of a Kyverno policy as reported by the policy controller",
+      "properties": {
+        "ready": {
+          "type": "boolean",
+          "description": "Whether the policy has been processed and is active"
+        },
+        "conditions": {
+          "type": "array",
+          "description": "Status conditions for the policy",
+          "items": {
+            "$ref": "#/$defs/StatusCondition"
+          }
+        },
+        "ruleCount": {
+          "type": "object",
+          "description": "Count of rules by type in this policy",
+          "properties": {
+            "validate": {
+              "type": "integer"
+            },
+            "mutate": {
+              "type": "integer"
+            },
+            "generate": {
+              "type": "integer"
+            },
+            "verifyImages": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "StatusCondition": {
+      "type": "object",
+      "description": "A Kubernetes-style status condition",
+      "required": ["type", "status"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of the condition",
+          "example": "Ready"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the condition",
+          "enum": ["True", "False", "Unknown"]
+        },
+        "reason": {
+          "type": "string",
+          "description": "Machine-readable reason for the condition status"
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable explanation of the condition"
+        },
+        "lastTransitionTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the condition last changed"
+        }
+      }
+    }
+  }
+}
