@@ -38,7 +38,7 @@ paths:
   /healthz:
     get:
       operationId: getHealthz
-      summary: Health check
+      summary: Kyverno Health check
       description: >-
         Returns the health status of the Policy Reporter server. Used by
         Kubernetes liveness and readiness probes to confirm the server is
@@ -57,7 +57,7 @@ paths:
   /api/v1/targets:
     get:
       operationId: listTargets
-      summary: List notification targets
+      summary: Kyverno List notification targets
       description: >-
         Returns a list of configured notification targets such as Slack, Teams,
         Loki, Elasticsearch, and others. Each target entry includes its name,
@@ -76,7 +76,7 @@ paths:
   /api/v1/namespaces:
     get:
       operationId: listNamespaces
-      summary: List namespaces with policy reports
+      summary: Kyverno List namespaces with policy reports
       description: >-
         Returns a list of namespace names that have associated PolicyReport
         resources. Useful for filtering result queries by namespace.
@@ -95,7 +95,7 @@ paths:
   /api/v1/sources:
     get:
       operationId: listSources
-      summary: List policy sources
+      summary: Kyverno List policy sources
       description: >-
         Returns a list of policy source names that have generated reports. Policy
         sources include kyverno, kube-bench, trivy, and other policy engines that
@@ -115,7 +115,7 @@ paths:
   /api/v1/policies:
     get:
       operationId: listPolicies
-      summary: List policies
+      summary: Kyverno List policies
       description: >-
         Returns a list of policies with result counts grouped by status. Supports
         filtering by namespace, source, and category. Each entry includes counts
@@ -138,7 +138,7 @@ paths:
   /api/v1/rules:
     get:
       operationId: listRules
-      summary: List policy rules
+      summary: Kyverno List policy rules
       description: >-
         Returns a list of policy rule names that have results across all
         namespaces. Can be filtered by namespace and source to narrow the results.
@@ -160,7 +160,7 @@ paths:
   /api/v1/categories:
     get:
       operationId: listCategories
-      summary: List policy categories
+      summary: Kyverno List policy categories
       description: >-
         Returns a list of policy category names used to group related policies.
         Categories are defined in policy metadata and may include values such as
@@ -182,7 +182,7 @@ paths:
   /api/v1/policy-reports:
     get:
       operationId: listPolicyReports
-      summary: List namespaced policy reports
+      summary: Kyverno List namespaced policy reports
       description: >-
         Returns a paginated list of PolicyReport resources across all namespaces
         or filtered by a specific namespace. Each report includes summary counts
@@ -204,7 +204,7 @@ paths:
   /api/v1/cluster-policy-reports:
     get:
       operationId: listClusterPolicyReports
-      summary: List cluster-scoped policy reports
+      summary: Kyverno List cluster-scoped policy reports
       description: >-
         Returns a paginated list of ClusterPolicyReport resources. These reports
         cover cluster-scoped resources such as Nodes, Namespaces, and
@@ -225,7 +225,7 @@ paths:
   /api/v1/namespace-scoped/results:
     get:
       operationId: listNamespaceScopedResults
-      summary: List namespace-scoped policy results
+      summary: Kyverno List namespace-scoped policy results
       description: >-
         Returns a paginated list of individual policy result entries from
         PolicyReport resources. Results can be filtered by namespace, policy,
@@ -259,7 +259,7 @@ paths:
   /api/v1/cluster-scoped/results:
     get:
       operationId: listClusterScopedResults
-      summary: List cluster-scoped policy results
+      summary: Kyverno List cluster-scoped policy results
       description: >-
         Returns a paginated list of individual policy result entries from
         ClusterPolicyReport resources. Results can be filtered by policy, rule,
@@ -292,7 +292,7 @@ paths:
   /api/v1/namespace-scoped/summary:
     get:
       operationId: getNamespaceScopedSummary
-      summary: Get namespace-scoped result summary
+      summary: Kyverno Get namespace-scoped result summary
       description: >-
         Returns aggregated result counts grouped by status for namespace-scoped
         policy reports. Supports the same filtering options as the results
@@ -313,7 +313,7 @@ paths:
   /api/v1/cluster-scoped/summary:
     get:
       operationId: getClusterScopedSummary
-      summary: Get cluster-scoped result summary
+      summary: Kyverno Get cluster-scoped result summary
       description: >-
         Returns aggregated result counts grouped by status for cluster-scoped
         policy reports. Supports the same filtering options as the cluster results
