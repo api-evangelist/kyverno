@@ -8,11 +8,11 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Policy Management
-  - Kubernetes
-  - Security
-  - Governance
   - Cloud Native
+  - Governance
+  - Kubernetes
+  - Policy Management
+  - Security
 url: https://raw.githubusercontent.com/api-evangelist/kyverno/refs/heads/main/apis.yml
 created: '2025-01-01'
 modified: '2026-03-18'
@@ -29,8 +29,8 @@ apis:
       and image verification use cases.
     humanURL: https://kyverno.io/
     tags:
-      - Policy
       - Kubernetes
+      - Policy
       - Security
     properties:
       - type: Documentation
@@ -54,9 +54,9 @@ apis:
     humanURL: https://kyverno.io/docs/kyverno-cli/
     tags:
       - CLI
-      - Policy
       - Developer Tools
       - Kubernetes
+      - Policy
     properties:
       - type: Documentation
         url: https://kyverno.io/docs/kyverno-cli/
@@ -73,9 +73,9 @@ apis:
       violation data, and serves as the backend for the Policy Reporter UI.
     humanURL: https://kyverno.github.io/policy-reporter/
     tags:
+      - Observability
       - Policy Reports
       - REST API
-      - Observability
     properties:
       - type: Documentation
         url: https://kyverno.github.io/policy-reporter/

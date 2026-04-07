@@ -20,18 +20,18 @@ servers:
   - url: http://localhost:8080
     description: Default Policy Reporter server
 tags:
+  - name: ClusterPolicyReports
+    description: Cluster-scoped policy report endpoints
   - name: Health
     description: Health and readiness endpoints
+  - name: Namespaces
+    description: Namespace listing endpoints
   - name: Policies
     description: Policy listing and detail endpoints
   - name: PolicyReports
     description: Namespaced policy report endpoints
-  - name: ClusterPolicyReports
-    description: Cluster-scoped policy report endpoints
   - name: Results
     description: Policy result query endpoints
-  - name: Namespaces
-    description: Namespace listing endpoints
   - name: Sources
     description: Policy source listing endpoints
 paths:
