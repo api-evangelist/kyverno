@@ -1,0 +1,67 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Kyverno Policy Reporter API — PolicyReports
+  description: 'Kyverno Policy Reporter API — PolicyReports. 1 operations. Lead operation: Kyverno List namespaced policy
+    reports. Self-contained Naftiko capability covering one Kyverno business surface.'
+  tags:
+  - Kyverno
+  - PolicyReports
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KYVERNO_API_KEY: KYVERNO_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: policy-reporter-policyreports
+    baseUri: http://localhost:8080
+    description: Kyverno Policy Reporter API — PolicyReports business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-policy-reports
+      path: /api/v1/policy-reports
+      operations:
+      - name: listpolicyreports
+        method: GET
+        description: Kyverno List namespaced policy reports
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: policy-reporter-policyreports-rest
+    port: 8080
+    description: REST adapter for Kyverno Policy Reporter API — PolicyReports. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/api/v1/policy-reports
+      name: api-v1-policy-reports
+      description: REST surface for api-v1-policy-reports.
+      operations:
+      - method: GET
+        name: listpolicyreports
+        description: Kyverno List namespaced policy reports
+        call: policy-reporter-policyreports.listpolicyreports
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: policy-reporter-policyreports-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Kyverno Policy Reporter API — PolicyReports. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: kyverno-list-namespaced-policy-reports
+      description: Kyverno List namespaced policy reports
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: policy-reporter-policyreports.listpolicyreports
+      outputParameters:
+      - type: object
+        mapping: $.
