@@ -120,6 +120,8 @@ common:
   description: Linked data context mapping Kyverno policy resources and policy report entities to standard vocabularies.
 - type: Integrations
   url: https://kyverno.io/integrations
+- type: LLMsTxt
+  url: https://kyverno.io/llms.txt
 integrations:
 - name: kyverno
 - name: Adidas
