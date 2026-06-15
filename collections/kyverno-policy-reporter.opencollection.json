@@ -1,0 +1,449 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kyverno Policy Reporter API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno Health check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/healthz"
+          },
+          "docs": "Returns the health status of the Policy Reporter server. Used by Kubernetes liveness and readiness probes to confirm the server is operational."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Policies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno List notification targets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/targets"
+          },
+          "docs": "Returns a list of configured notification targets such as Slack, Teams, Loki, Elasticsearch, and others. Each target entry includes its name, minimum priority filter, and enabled sources."
+        },
+        {
+          "info": {
+            "name": "Kyverno List policies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/policies",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by Kubernetes namespace"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy category"
+              }
+            ]
+          },
+          "docs": "Returns a list of policies with result counts grouped by status. Supports filtering by namespace, source, and category. Each entry includes counts of pass, fail, warn, error, and skip results."
+        },
+        {
+          "info": {
+            "name": "Kyverno List policy rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/rules",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by Kubernetes namespace"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              }
+            ]
+          },
+          "docs": "Returns a list of policy rule names that have results across all namespaces. Can be filtered by namespace and source to narrow the results."
+        },
+        {
+          "info": {
+            "name": "Kyverno List policy categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/categories",
+            "params": [
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              }
+            ]
+          },
+          "docs": "Returns a list of policy category names used to group related policies. Categories are defined in policy metadata and may include values such as Pod Security Standards or Best Practices."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Namespaces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno List namespaces with policy reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/namespaces"
+          },
+          "docs": "Returns a list of namespace names that have associated PolicyReport resources. Useful for filtering result queries by namespace."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno List policy sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/sources"
+          },
+          "docs": "Returns a list of policy source names that have generated reports. Policy sources include kyverno, kube-bench, trivy, and other policy engines that produce PolicyReport resources."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "PolicyReports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno List namespaced policy reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/policy-reports",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by Kubernetes namespace"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results (1-based)"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of PolicyReport resources across all namespaces or filtered by a specific namespace. Each report includes summary counts and metadata about the namespace and source."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ClusterPolicyReports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno List cluster-scoped policy reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/cluster-policy-reports",
+            "params": [
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results (1-based)"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of ClusterPolicyReport resources. These reports cover cluster-scoped resources such as Nodes, Namespaces, and ClusterRoles that are not bound to a specific namespace."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Results",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno List namespace-scoped policy results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/namespace-scoped/results",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by Kubernetes namespace"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              },
+              {
+                "name": "policy",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy name"
+              },
+              {
+                "name": "rule",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by rule name"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by result status"
+              },
+              {
+                "name": "severity",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by severity level"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy category"
+              },
+              {
+                "name": "kind",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by Kubernetes resource kind"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results (1-based)"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of individual policy result entries from PolicyReport resources. Results can be filtered by namespace, policy, rule, status, severity, category, source, and resource kind or name."
+        },
+        {
+          "info": {
+            "name": "Kyverno List cluster-scoped policy results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/cluster-scoped/results",
+            "params": [
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              },
+              {
+                "name": "policy",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy name"
+              },
+              {
+                "name": "rule",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by rule name"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by result status"
+              },
+              {
+                "name": "severity",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by severity level"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy category"
+              },
+              {
+                "name": "kind",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by Kubernetes resource kind"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results (1-based)"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of individual policy result entries from ClusterPolicyReport resources. Results can be filtered by policy, rule, status, severity, category, source, and resource kind or name."
+        },
+        {
+          "info": {
+            "name": "Kyverno Get namespace-scoped result summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/namespace-scoped/summary",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by Kubernetes namespace"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy category"
+              }
+            ]
+          },
+          "docs": "Returns aggregated result counts grouped by status for namespace-scoped policy reports. Supports the same filtering options as the results endpoint. Useful for dashboard and summary views."
+        },
+        {
+          "info": {
+            "name": "Kyverno Get cluster-scoped result summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/cluster-scoped/summary",
+            "params": [
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy category"
+              }
+            ]
+          },
+          "docs": "Returns aggregated result counts grouped by status for cluster-scoped policy reports. Supports the same filtering options as the cluster results endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
