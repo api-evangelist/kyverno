@@ -4,7 +4,7 @@ description: >-
   Kyverno is a Kubernetes native policy management engine for security, automation, and governance. It uses Kubernetes
   admission controllers to validate, mutate, and generate configurations using policies written as Kubernetes resources.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Cloud Native
   - Governance
