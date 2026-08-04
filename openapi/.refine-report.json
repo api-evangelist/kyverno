@@ -1,0 +1,26 @@
+{
+  "provider": "kyverno",
+  "sources": [
+    "kyverno-clusterpolicyreports-api-openapi.yml",
+    "kyverno-health-api-openapi.yml",
+    "kyverno-namespaces-api-openapi.yml",
+    "kyverno-policies-api-openapi.yml",
+    "kyverno-policyreports-api-openapi.yml",
+    "kyverno-results-api-openapi.yml",
+    "kyverno-sources-api-openapi.yml"
+  ],
+  "outputs": [
+    "kyverno-clusterpolicyreports-api-openapi.yml",
+    "kyverno-health-api-openapi.yml",
+    "kyverno-namespaces-api-openapi.yml",
+    "kyverno-policies-api-openapi.yml",
+    "kyverno-policyreports-api-openapi.yml",
+    "kyverno-results-api-openapi.yml",
+    "kyverno-sources-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
