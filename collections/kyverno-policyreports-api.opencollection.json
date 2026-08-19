@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kyverno Policy Reporter ClusterPolicyReports PolicyReports API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PolicyReports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno List namespaced policy reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/policy-reports",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by Kubernetes namespace"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results (1-based)"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of PolicyReport resources across all namespaces or filtered by a specific namespace. Each report includes summary counts and metadata about the namespace and source."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,394 @@
+{
+  "item": [
+    {
+      "id": "9f358452-d0c5-45d3-9551-9ff03f96350f",
+      "name": "Policies",
+      "description": {
+        "content": "Policy listing and detail endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4bb16baa-b760-4804-80bf-ee4812eecc1b",
+          "name": "Kyverno List notification targets",
+          "request": {
+            "name": "Kyverno List notification targets",
+            "description": {
+              "content": "Returns a list of configured notification targets such as Slack, Teams, Loki, Elasticsearch, and others. Each target entry includes its name, minimum priority filter, and enabled sources.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "targets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "772627a4-d434-49e4-8227-ea3a8b23ffd2",
+              "name": "List of notification targets",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "targets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"slack\",\n    \"minimumPriority\": \"medium\",\n    \"sources\": [\n      \"kyverno\"\n    ],\n    \"skipExistingOnStartup\": true\n  },\n  {\n    \"name\": \"slack\",\n    \"minimumPriority\": \"medium\",\n    \"sources\": [\n      \"kyverno\"\n    ],\n    \"skipExistingOnStartup\": true\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a10c202e-3daf-4fb4-a5c1-63ec1368fb43",
+          "name": "Kyverno List policies",
+          "request": {
+            "name": "Kyverno List policies",
+            "description": {
+              "content": "Returns a list of policies with result counts grouped by status. Supports filtering by namespace, source, and category. Each entry includes counts of pass, fail, warn, error, and skip results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "policies"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "namespace",
+                  "value": "<string>",
+                  "description": "Filter results by Kubernetes namespace"
+                },
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>",
+                  "description": "Filter results by policy source (e.g., kyverno, trivy)"
+                },
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>",
+                  "description": "Filter results by policy category"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8d76e74d-df32-4216-beda-5e0dd630696e",
+              "name": "List of policies with result counts",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "namespace",
+                      "value": "default"
+                    },
+                    {
+                      "key": "source",
+                      "value": "kyverno"
+                    },
+                    {
+                      "key": "category",
+                      "value": "Pod Security Standards"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"policy\": \"require-labels\",\n    \"namespace\": \"default\",\n    \"source\": \"kyverno\",\n    \"category\": \"Best Practices\",\n    \"severity\": \"critical\",\n    \"results\": {\n      \"pass\": 45,\n      \"fail\": 3,\n      \"warn\": 1,\n      \"error\": 0,\n      \"skip\": 2\n    }\n  },\n  {\n    \"policy\": \"require-labels\",\n    \"namespace\": \"default\",\n    \"source\": \"kyverno\",\n    \"category\": \"Best Practices\",\n    \"severity\": \"low\",\n    \"results\": {\n      \"pass\": 45,\n      \"fail\": 3,\n      \"warn\": 1,\n      \"error\": 0,\n      \"skip\": 2\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7a7a1871-82bc-4d03-ba96-78828d910b87",
+          "name": "Kyverno List policy rules",
+          "request": {
+            "name": "Kyverno List policy rules",
+            "description": {
+              "content": "Returns a list of policy rule names that have results across all namespaces. Can be filtered by namespace and source to narrow the results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "rules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "namespace",
+                  "value": "<string>",
+                  "description": "Filter results by Kubernetes namespace"
+                },
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>",
+                  "description": "Filter results by policy source (e.g., kyverno, trivy)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d82ede10-c031-4475-9ae8-25b3c26943ab",
+              "name": "List of policy rule names",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "namespace",
+                      "value": "default"
+                    },
+                    {
+                      "key": "source",
+                      "value": "kyverno"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"require-labels\",\n  \"require-labels\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "961a9ba0-7e34-44e6-b252-7d9e5f379c16",
+          "name": "Kyverno List policy categories",
+          "request": {
+            "name": "Kyverno List policy categories",
+            "description": {
+              "content": "Returns a list of policy category names used to group related policies. Categories are defined in policy metadata and may include values such as Pod Security Standards or Best Practices.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "categories"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>",
+                  "description": "Filter results by policy source (e.g., kyverno, trivy)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eb5865eb-567e-4a34-b65c-a7fdd3d039ab",
+              "name": "List of category names",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "source",
+                      "value": "kyverno"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"Pod Security Standards\",\n  \"Pod Security Standards\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:8080",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f91b5842-720b-41af-8c89-c5bad5b12a91",
+    "name": "Kyverno Policy Reporter ClusterPolicyReports Policies API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Kyverno Policy Reporter REST API provides endpoints for querying PolicyReport and ClusterPolicyReport custom resources generated by Kyverno. It exposes policy results, status counts, and resource-level violation data, serving as the backend for the Policy Reporter UI. The API enables programmatic access to policy compliance status across namespaces and clusters.\n\nContact Support:\n Name: Kyverno Community",
+      "type": "text/plain"
+    }
+  }
+}

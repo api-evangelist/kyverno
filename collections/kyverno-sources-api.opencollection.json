@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kyverno Policy Reporter ClusterPolicyReports Sources API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno List policy sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/sources"
+          },
+          "docs": "Returns a list of policy source names that have generated reports. Policy sources include kyverno, kube-bench, trivy, and other policy engines that produce PolicyReport resources."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

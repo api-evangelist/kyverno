@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kyverno Policy Reporter ClusterPolicyReports Health API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno Health check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/healthz"
+          },
+          "docs": "Returns the health status of the Policy Reporter server. Used by Kubernetes liveness and readiness probes to confirm the server is operational."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

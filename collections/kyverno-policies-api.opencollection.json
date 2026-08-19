@@ -1,0 +1,104 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kyverno Policy Reporter ClusterPolicyReports Policies API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Policies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno List notification targets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/targets"
+          },
+          "docs": "Returns a list of configured notification targets such as Slack, Teams, Loki, Elasticsearch, and others. Each target entry includes its name, minimum priority filter, and enabled sources."
+        },
+        {
+          "info": {
+            "name": "Kyverno List policies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/policies",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by Kubernetes namespace"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy category"
+              }
+            ]
+          },
+          "docs": "Returns a list of policies with result counts grouped by status. Supports filtering by namespace, source, and category. Each entry includes counts of pass, fail, warn, error, and skip results."
+        },
+        {
+          "info": {
+            "name": "Kyverno List policy rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/rules",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by Kubernetes namespace"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              }
+            ]
+          },
+          "docs": "Returns a list of policy rule names that have results across all namespaces. Can be filtered by namespace and source to narrow the results."
+        },
+        {
+          "info": {
+            "name": "Kyverno List policy categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/categories",
+            "params": [
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              }
+            ]
+          },
+          "docs": "Returns a list of policy category names used to group related policies. Categories are defined in policy metadata and may include values such as Pod Security Standards or Best Practices."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

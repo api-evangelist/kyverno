@@ -1,0 +1,148 @@
+{
+  "item": [
+    {
+      "id": "2bd9b097-1943-42db-a3df-504451493270",
+      "name": "PolicyReports",
+      "description": {
+        "content": "Namespaced policy report endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9b4b55b1-7814-4bf6-a924-8675cbca9679",
+          "name": "Kyverno List namespaced policy reports",
+          "request": {
+            "name": "Kyverno List namespaced policy reports",
+            "description": {
+              "content": "Returns a paginated list of PolicyReport resources across all namespaces or filtered by a specific namespace. Each report includes summary counts and metadata about the namespace and source.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "policy-reports"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "namespace",
+                  "value": "<string>",
+                  "description": "Filter results by Kubernetes namespace"
+                },
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>",
+                  "description": "Filter results by policy source (e.g., kyverno, trivy)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for paginated results (1-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "perPage",
+                  "value": "20",
+                  "description": "Number of results per page"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c9e4ee43-69fc-4214-8edd-d086f8ef8112",
+              "name": "Paginated list of policy reports",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-reports"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "namespace",
+                      "value": "default"
+                    },
+                    {
+                      "key": "source",
+                      "value": "kyverno"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"name\": \"cpol-require-labels\",\n      \"namespace\": \"default\",\n      \"source\": \"kyverno\",\n      \"summary\": {\n        \"pass\": 45,\n        \"fail\": 3,\n        \"warn\": 1,\n        \"error\": 0,\n        \"skip\": 2\n      },\n      \"creationTimestamp\": \"2003-11-22T07:28:02.192Z\"\n    },\n    {\n      \"name\": \"cpol-require-labels\",\n      \"namespace\": \"default\",\n      \"source\": \"kyverno\",\n      \"summary\": {\n        \"pass\": 45,\n        \"fail\": 3,\n        \"warn\": 1,\n        \"error\": 0,\n        \"skip\": 2\n      },\n      \"creationTimestamp\": \"1993-03-18T21:53:03.920Z\"\n    }\n  ],\n  \"count\": 42\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:8080",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ffe13b82-fda0-4595-af1f-3b4d5ee61b47",
+    "name": "Kyverno Policy Reporter ClusterPolicyReports PolicyReports API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Kyverno Policy Reporter REST API provides endpoints for querying PolicyReport and ClusterPolicyReport custom resources generated by Kyverno. It exposes policy results, status counts, and resource-level violation data, serving as the backend for the Policy Reporter UI. The API enables programmatic access to policy compliance status across namespaces and clusters.\n\nContact Support:\n Name: Kyverno Community",
+      "type": "text/plain"
+    }
+  }
+}

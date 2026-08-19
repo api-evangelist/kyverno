@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kyverno Policy Reporter ClusterPolicyReports Namespaces API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Namespaces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno List namespaces with policy reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/namespaces"
+          },
+          "docs": "Returns a list of namespace names that have associated PolicyReport resources. Useful for filtering result queries by namespace."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

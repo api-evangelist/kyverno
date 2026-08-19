@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kyverno Policy Reporter ClusterPolicyReports API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ClusterPolicyReports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kyverno List cluster-scoped policy reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/v1/cluster-policy-reports",
+            "params": [
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by policy source (e.g., kyverno, trivy)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results (1-based)"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of ClusterPolicyReport resources. These reports cover cluster-scoped resources such as Nodes, Namespaces, and ClusterRoles that are not bound to a specific namespace."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
