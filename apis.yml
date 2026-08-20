@@ -18,6 +18,12 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/kyverno.png
 tags:
+  - Cloud-Native
+  - Governance
+  - Kubernetes
+  - Policy Management
+  - Security
+tags_raw:
   - Cloud Native
   - Governance
   - Kubernetes
@@ -143,6 +149,8 @@ apis:
   description: Namespaced policy report endpoints
   humanURL: https://kyverno.io/
   tags:
+  - Policy Reports
+  tags_raw:
   - PolicyReports
   properties:
   - type: OpenAPI
