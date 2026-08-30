@@ -162,7 +162,7 @@ apis:
   description: Namespaced policy report endpoints
   humanURL: https://kyverno.io/
   tags:
-  - Policy Reports
+  - PolicyReports
   tags_raw:
   - PolicyReports
   properties:
