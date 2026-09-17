@@ -157,25 +157,6 @@ apis:
     url: https://kyverno.github.io/policy-reporter/guide/getting-started/
   - type: GitHubRepository
     url: https://github.com/kyverno/policy-reporter
-- aid: kyverno:kyverno-policyreports-api
-  name: Kyverno PolicyReports API
-  description: Namespaced policy report endpoints
-  humanURL: https://kyverno.io/
-  tags:
-  - Policy Reports
-  tags_raw:
-  - PolicyReports
-  properties:
-  - type: OpenAPI
-    url: openapi/kyverno-policyreports-api-openapi.yml
-  - type: Documentation
-    url: https://kyverno.github.io/policy-reporter/
-  - type: Reference
-    url: https://kyverno.github.io/policy-reporter/core/api-reference/
-  - type: GettingStarted
-    url: https://kyverno.github.io/policy-reporter/guide/getting-started/
-  - type: GitHubRepository
-    url: https://github.com/kyverno/policy-reporter
 - aid: kyverno:kyverno-results-api
   name: Kyverno Results API
   description: Policy result query endpoints
@@ -202,6 +183,23 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/kyverno-sources-api-openapi.yml
+  - type: Documentation
+    url: https://kyverno.github.io/policy-reporter/
+  - type: Reference
+    url: https://kyverno.github.io/policy-reporter/core/api-reference/
+  - type: GettingStarted
+    url: https://kyverno.github.io/policy-reporter/guide/getting-started/
+  - type: GitHubRepository
+    url: https://github.com/kyverno/policy-reporter
+- aid: kyverno:kyverno-policy-reports-api
+  name: Kyverno Policy Reports API
+  description: Namespaced policy report endpoints
+  humanURL: https://kyverno.io/
+  tags:
+  - Policy Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/kyverno-policy-reports-api-openapi.yml
   - type: Documentation
     url: https://kyverno.github.io/policy-reporter/
   - type: Reference
