@@ -1,13 +1,7 @@
 {
   "provider": "kyverno",
   "sources": [
-    "kyverno-clusterpolicyreports-api-openapi.yml",
-    "kyverno-health-api-openapi.yml",
-    "kyverno-namespaces-api-openapi.yml",
-    "kyverno-policies-api-openapi.yml",
-    "kyverno-policyreports-api-openapi.yml",
-    "kyverno-results-api-openapi.yml",
-    "kyverno-sources-api-openapi.yml"
+    "_original/kyverno-policy-reporter-openapi.yml"
   ],
   "outputs": [
     "kyverno-clusterpolicyreports-api-openapi.yml",
@@ -18,9 +12,24 @@
     "kyverno-results-api-openapi.yml",
     "kyverno-sources-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "kyverno-policy-reporter-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: kyverno-policy-reports-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 9 total)"
+  ],
+  "skipped": [
+    "kyverno-clusterpolicyreports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kyverno-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kyverno-namespaces-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kyverno-policies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kyverno-policy-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kyverno-results-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kyverno-sources-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
