@@ -35,6 +35,30 @@ paths:
                 $ref: '#/components/schemas/PolicyReportList'
 components:
   schemas:
+    ResultCounts:
+      type: object
+      description: Aggregated counts of policy results grouped by status
+      properties:
+        pass:
+          type: integer
+          description: Number of passing results
+          example: 45
+        fail:
+          type: integer
+          description: Number of failing results
+          example: 3
+        warn:
+          type: integer
+          description: Number of warning results
+          example: 1
+        error:
+          type: integer
+          description: Number of error results
+          example: 0
+        skip:
+          type: integer
+          description: Number of skipped results
+          example: 2
     PolicyReport:
       type: object
       description: A PolicyReport or ClusterPolicyReport resource summary
@@ -70,31 +94,15 @@ components:
           type: integer
           description: Total number of policy reports matching the query
           example: 42
-    ResultCounts:
-      type: object
-      description: Aggregated counts of policy results grouped by status
-      properties:
-        pass:
-          type: integer
-          description: Number of passing results
-          example: 45
-        fail:
-          type: integer
-          description: Number of failing results
-          example: 3
-        warn:
-          type: integer
-          description: Number of warning results
-          example: 1
-        error:
-          type: integer
-          description: Number of error results
-          example: 0
-        skip:
-          type: integer
-          description: Number of skipped results
-          example: 2
   parameters:
+    namespaceParam:
+      name: namespace
+      in: query
+      description: Filter results by Kubernetes namespace
+      required: false
+      schema:
+        type: string
+        example: default
     pageParam:
       name: page
       in: query
@@ -104,6 +112,14 @@ components:
         type: integer
         minimum: 1
         default: 1
+    sourceParam:
+      name: source
+      in: query
+      description: Filter results by policy source (e.g., kyverno, trivy)
+      required: false
+      schema:
+        type: string
+        example: kyverno
     perPageParam:
       name: perPage
       in: query
@@ -114,22 +130,6 @@ components:
         minimum: 1
         maximum: 250
         default: 20
-    namespaceParam:
-      name: namespace
-      in: query
-      description: Filter results by Kubernetes namespace
-      required: false
-      schema:
-        type: string
-        example: default
-    sourceParam:
-      name: source
-      in: query
-      description: Filter results by policy source (e.g., kyverno, trivy)
-      required: false
-      schema:
-        type: string
-        example: kyverno
 externalDocs:
   description: Policy Reporter API Reference
   url: https://kyverno.github.io/policy-reporter/core/api-reference/

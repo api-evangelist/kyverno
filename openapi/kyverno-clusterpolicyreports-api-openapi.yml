@@ -34,28 +34,6 @@ paths:
                 $ref: '#/components/schemas/PolicyReportList'
 components:
   schemas:
-    PolicyReport:
-      type: object
-      description: A PolicyReport or ClusterPolicyReport resource summary
-      properties:
-        name:
-          type: string
-          description: Name of the policy report resource
-          example: cpol-require-labels
-        namespace:
-          type: string
-          description: Namespace of the report (empty for cluster-scoped reports)
-          example: default
-        source:
-          type: string
-          description: Policy engine that generated the report
-          example: kyverno
-        summary:
-          $ref: '#/components/schemas/ResultCounts'
-        creationTimestamp:
-          type: string
-          format: date-time
-          description: Timestamp when the policy report was created
     ResultCounts:
       type: object
       description: Aggregated counts of policy results grouped by status
@@ -80,6 +58,28 @@ components:
           type: integer
           description: Number of skipped results
           example: 2
+    PolicyReport:
+      type: object
+      description: A PolicyReport or ClusterPolicyReport resource summary
+      properties:
+        name:
+          type: string
+          description: Name of the policy report resource
+          example: cpol-require-labels
+        namespace:
+          type: string
+          description: Namespace of the report (empty for cluster-scoped reports)
+          example: default
+        source:
+          type: string
+          description: Policy engine that generated the report
+          example: kyverno
+        summary:
+          $ref: '#/components/schemas/ResultCounts'
+        creationTimestamp:
+          type: string
+          format: date-time
+          description: Timestamp when the policy report was created
     PolicyReportList:
       type: object
       description: Paginated list of policy reports
