@@ -209,6 +209,12 @@ apis:
   - type: GitHubRepository
     url: https://github.com/kyverno/policy-reporter
 common:
+  - type: Plans
+    url: plans/kyverno-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/kyverno-rate-limits.yml
+  - type: FinOps
+    url: finops/kyverno-finops.yml
   - type: IssueTracker
     url: https://github.com/kyverno/kyverno/issues
   - type: Releases
