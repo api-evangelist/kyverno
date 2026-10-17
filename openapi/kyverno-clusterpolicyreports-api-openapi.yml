@@ -44,6 +44,14 @@ components:
         minimum: 1
         maximum: 250
         default: 20
+    sourceParam:
+      name: source
+      in: query
+      description: Filter results by policy source (e.g., kyverno, trivy)
+      required: false
+      schema:
+        type: string
+        example: kyverno
     pageParam:
       name: page
       in: query
@@ -53,15 +61,20 @@ components:
         type: integer
         minimum: 1
         default: 1
-    sourceParam:
-      name: source
-      in: query
-      description: Filter results by policy source (e.g., kyverno, trivy)
-      required: false
-      schema:
-        type: string
-        example: kyverno
   schemas:
+    PolicyReportList:
+      type: object
+      description: Paginated list of policy reports
+      properties:
+        items:
+          type: array
+          description: List of policy report summaries
+          items:
+            $ref: '#/components/schemas/PolicyReport'
+        count:
+          type: integer
+          description: Total number of policy reports matching the query
+          example: 42
     PolicyReport:
       type: object
       description: A PolicyReport or ClusterPolicyReport resource summary
@@ -84,19 +97,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the policy report was created
-    PolicyReportList:
-      type: object
-      description: Paginated list of policy reports
-      properties:
-        items:
-          type: array
-          description: List of policy report summaries
-          items:
-            $ref: '#/components/schemas/PolicyReport'
-        count:
-          type: integer
-          description: Total number of policy reports matching the query
-          example: 42
     ResultCounts:
       type: object
       description: Aggregated counts of policy results grouped by status

@@ -111,132 +111,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResultSummary'
 components:
-  parameters:
-    ruleParam:
-      name: rule
-      in: query
-      description: Filter results by rule name
-      required: false
-      schema:
-        type: string
-        example: check-for-labels
-    perPageParam:
-      name: perPage
-      in: query
-      description: Number of results per page
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 20
-    namespaceParam:
-      name: namespace
-      in: query
-      description: Filter results by Kubernetes namespace
-      required: false
-      schema:
-        type: string
-        example: default
-    pageParam:
-      name: page
-      in: query
-      description: Page number for paginated results (1-based)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-    sourceParam:
-      name: source
-      in: query
-      description: Filter results by policy source (e.g., kyverno, trivy)
-      required: false
-      schema:
-        type: string
-        example: kyverno
-    severityParam:
-      name: severity
-      in: query
-      description: Filter results by severity level
-      required: false
-      schema:
-        type: string
-        enum:
-        - info
-        - low
-        - medium
-        - high
-        - critical
-    kindParam:
-      name: kind
-      in: query
-      description: Filter results by Kubernetes resource kind
-      required: false
-      schema:
-        type: string
-        example: Pod
-    categoryParam:
-      name: category
-      in: query
-      description: Filter results by policy category
-      required: false
-      schema:
-        type: string
-        example: Pod Security Standards
-    policyParam:
-      name: policy
-      in: query
-      description: Filter results by policy name
-      required: false
-      schema:
-        type: string
-        example: require-labels
-    statusParam:
-      name: status
-      in: query
-      description: Filter results by result status
-      required: false
-      schema:
-        type: string
-        enum:
-        - pass
-        - fail
-        - warn
-        - error
-        - skip
   schemas:
-    ResultSummary:
+    ResourceReference:
       type: object
-      description: Aggregated summary of policy results
+      description: A reference to the Kubernetes resource evaluated by the policy
       properties:
-        items:
-          type: array
-          description: List of status and count pairs
-          items:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - pass
-                - fail
-                - warn
-                - error
-                - skip
-              count:
-                type: integer
-                description: Number of results with this status
-    Error:
-      type: object
-      description: An error response
-      properties:
-        message:
+        apiVersion:
           type: string
-          description: Human-readable error message
-          example: Invalid query parameter value
-      required:
-      - message
+          description: API version of the resource
+          example: v1
+        kind:
+          type: string
+          description: Kind of the Kubernetes resource
+          example: Pod
+        name:
+          type: string
+          description: Name of the resource
+          example: my-pod
+        namespace:
+          type: string
+          description: Namespace of the resource (empty for cluster-scoped)
+          example: default
+        uid:
+          type: string
+          description: UID of the Kubernetes resource
+          example: 550e8400-e29b-41d4-a716-446655440000
     PolicyResult:
       type: object
       description: An individual policy evaluation result for a specific resource
@@ -295,6 +194,37 @@ components:
           type: string
           format: date-time
           description: Timestamp when the result was recorded
+    Error:
+      type: object
+      description: An error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Invalid query parameter value
+      required:
+      - message
+    ResultSummary:
+      type: object
+      description: Aggregated summary of policy results
+      properties:
+        items:
+          type: array
+          description: List of status and count pairs
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - pass
+                - fail
+                - warn
+                - error
+                - skip
+              count:
+                type: integer
+                description: Number of results with this status
     PolicyResultList:
       type: object
       description: Paginated list of individual policy results
@@ -308,30 +238,100 @@ components:
           type: integer
           description: Total number of results matching the query
           example: 150
-    ResourceReference:
-      type: object
-      description: A reference to the Kubernetes resource evaluated by the policy
-      properties:
-        apiVersion:
-          type: string
-          description: API version of the resource
-          example: v1
-        kind:
-          type: string
-          description: Kind of the Kubernetes resource
-          example: Pod
-        name:
-          type: string
-          description: Name of the resource
-          example: my-pod
-        namespace:
-          type: string
-          description: Namespace of the resource (empty for cluster-scoped)
-          example: default
-        uid:
-          type: string
-          description: UID of the Kubernetes resource
-          example: 550e8400-e29b-41d4-a716-446655440000
+  parameters:
+    perPageParam:
+      name: perPage
+      in: query
+      description: Number of results per page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 20
+    sourceParam:
+      name: source
+      in: query
+      description: Filter results by policy source (e.g., kyverno, trivy)
+      required: false
+      schema:
+        type: string
+        example: kyverno
+    statusParam:
+      name: status
+      in: query
+      description: Filter results by result status
+      required: false
+      schema:
+        type: string
+        enum:
+        - pass
+        - fail
+        - warn
+        - error
+        - skip
+    policyParam:
+      name: policy
+      in: query
+      description: Filter results by policy name
+      required: false
+      schema:
+        type: string
+        example: require-labels
+    pageParam:
+      name: page
+      in: query
+      description: Page number for paginated results (1-based)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    categoryParam:
+      name: category
+      in: query
+      description: Filter results by policy category
+      required: false
+      schema:
+        type: string
+        example: Pod Security Standards
+    namespaceParam:
+      name: namespace
+      in: query
+      description: Filter results by Kubernetes namespace
+      required: false
+      schema:
+        type: string
+        example: default
+    ruleParam:
+      name: rule
+      in: query
+      description: Filter results by rule name
+      required: false
+      schema:
+        type: string
+        example: check-for-labels
+    severityParam:
+      name: severity
+      in: query
+      description: Filter results by severity level
+      required: false
+      schema:
+        type: string
+        enum:
+        - info
+        - low
+        - medium
+        - high
+        - critical
+    kindParam:
+      name: kind
+      in: query
+      description: Filter results by Kubernetes resource kind
+      required: false
+      schema:
+        type: string
+        example: Pod
 externalDocs:
   description: Policy Reporter API Reference
   url: https://kyverno.github.io/policy-reporter/core/api-reference/
