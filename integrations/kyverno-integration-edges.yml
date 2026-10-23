@@ -1,34 +1,34 @@
 generated: '2026-10-13'
 method: searched
 checked:
-- artifact-hub/integrations/artifact-hub-integration-edges.yml
-- https://api.github.com
-- https://cdn.winget.microsoft.com/cache
-- https://claude-plugins.dev/sitemap.xml
 - https://cyclonedx.org/tool-center/
 - https://focus.finops.org/data-generators/
-- https://formulae.brew.sh/api/cask.json
-- https://formulae.brew.sh/api/formula.json
-- https://github.com/ScoopInstaller/Extras
-- https://github.com/ScoopInstaller/Main
-- https://github.com/VoltAgent/awesome-agent-skills
 - https://github.com/cncf/k8s-conformance
 - https://github.com/cncf/landscape
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/ecosystem/vendors.yaml
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/registry/
-- https://landscape.cd.foundation/data/full.json
+- https://raw.githubusercontent.com/ossf/ossf-landscape/0c5085851606608158f3adb796e5c22265ee174d/landscape.yml
+- https://spdx.dev/use/spdx-tools/
+- https://www.openchainproject.org/community-of-conformance
+- https://cdn.winget.microsoft.com/cache
+- https://formulae.brew.sh/api/cask.json
+- https://formulae.brew.sh/api/formula.json
+- https://github.com/ScoopInstaller/Extras
+- https://github.com/ScoopInstaller/Main
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://api.github.com
+- https://claude-plugins.dev/sitemap.xml
+- https://github.com/VoltAgent/awesome-agent-skills
 - https://officialskills.sh/sitemap.xml
+- https://skillsmp.com/sitemap.xml
+- https://www.skills.sh/sitemap.xml
+- https://www.bestpractices.dev/en/projects.json
+- artifact-hub/integrations/artifact-hub-integration-edges.yml
+- https://landscape.cd.foundation/data/full.json
 - https://plugins.jenkins.io/api/plugin/
 - https://plugins.jenkins.io/api/plugins
-- https://pypi.org/pypi
-- https://raw.githubusercontent.com/ossf/ossf-landscape/0c5085851606608158f3adb796e5c22265ee174d/landscape.yml
-- https://registry.npmjs.org
-- https://skillsmp.com/sitemap.xml
-- https://spdx.dev/use/spdx-tools/
-- https://www.bestpractices.dev/en/projects.json
 - https://www.bestpractices.dev/en/projects.json?page=N
-- https://www.openchainproject.org/community-of-conformance
-- https://www.skills.sh/sitemap.xml
 marketplace_apps: []
 edges:
 - partner_name: OpenTelemetry
@@ -241,6 +241,36 @@ edges:
   category: Artifact Hub listing (Helm chart)
   badges:
   - 'Verified publisher (Artifact Hub verified publisher: repository ownership proven)'
+- partner_name: CD Foundation (Continuous Delivery Foundation landscape)
+  partner: continuous-delivery-foundation
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  category: Continuous delivery foundation membership / landscape
+  evidence: https://landscape.cd.foundation/
+  contract_reference:
+    register: CD Foundation landscape (landscape.cd.foundation/data/full.json)
+    spec_file: null
+    standard: Continuous Delivery Foundation
+    role: cdf-landscape-listed
+    registered_name: Kyverno
+    registered_names:
+    - Kyverno
+    website: https://kyverno.io/
+    matched_domain: kyverno.io
+    matched_by: domain
+    member_tier: null
+    landscape_categories:
+    - DevSecOps / Policy
+    cdf_projects: []
+    signal_note: 'participation only: CDF membership or a landscape listing is standard-participant evidence, never
+      depth; tier, categories and entries are context, never counted'
+    detected_by: sweep-jenkins-cd-foundation-plugins.py
+    detected: '2026-10-22'
+  detected_by: sweep-jenkins-cd-foundation-plugins.py
+  first_seen: '2026-10-22'
 - partner_name: OpenSSF Best Practices Badge (bestpractices.dev)
   partner: null
   partner_match: register
