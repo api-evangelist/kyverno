@@ -1,4 +1,4 @@
-# Kyverno (kyverno)
+# Kyverno
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,109 +66,149 @@
 
 Kyverno is a Kubernetes native policy management engine for security, automation, and governance. It uses Kubernetes admission controllers to validate, mutate, and generate configurations using policies written as Kubernetes resources.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/kyverno/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/kyverno/refs/heads/main/apis.yml)
+**Areas:** Cloud-Native · Governance · Kubernetes · Policy Management · Security
 
-## Scope
+## Kyverno on APIs.io
 
-- **Type:** Index
+Everything profiled for Kyverno is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/kyverno/](https://apis.io/providers/kyverno/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (9)
 
-- Cloud Native
-- Governance
-- Kubernetes
-- Policy Management
-- Security
+- [Kyverno](https://apis.io/apis/kyverno/kyverno/) — Kyverno is a Kubernetes-native policy engine that runs as a dynamic admission controller to validate, mutate, and generate Kubernetes resources using…
+- [Kyverno CLI](https://apis.io/apis/kyverno/kyverno-cli/) — The Kyverno CLI provides a command-line interface for applying and testing Kyverno policies against Kubernetes resources outside of a cluster. It can be…
+- [Kyverno ClusterPolicyReports API](https://apis.io/apis/kyverno/kyverno-clusterpolicyreports-api/) — Cluster-scoped policy report endpoints
+- [Kyverno Health API](https://apis.io/apis/kyverno/kyverno-health-api/) — Health and readiness endpoints
+- [Kyverno Namespaces API](https://apis.io/apis/kyverno/kyverno-namespaces-api/) — Namespace listing endpoints
+- [Kyverno Policies API](https://apis.io/apis/kyverno/kyverno-policies-api/) — Policy listing and detail endpoints
+- [Kyverno Results API](https://apis.io/apis/kyverno/kyverno-results-api/) — Policy result query endpoints
+- [Kyverno Sources API](https://apis.io/apis/kyverno/kyverno-sources-api/) — Policy source listing endpoints
+- [Kyverno Policy Reports API](https://apis.io/apis/kyverno/kyverno-policy-reports-api/) — Namespaced policy report endpoints
 
-## Timestamps
+### Published properties
 
-- **Created:** 2025-01-01
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### Kyverno
+Which operations an agent can call, which act, and which need a human in the loop.
 
-Kyverno is a Kubernetes-native policy engine that runs as a dynamic admission controller to validate, mutate, and generate Kubernetes resources using policies written as Kubernetes resources. It supports policy types across multiple API groups including kyverno.io, policies.kyverno.io, and policyreport.io, covering validation, mutation, generation, cleanup, and image verification use cases.
+- [Kyverno Agentic Access](https://apis.io/agentic-access/kyverno/kyverno-agentic-access/)
 
-- **Human URL:** [https://kyverno.io/](https://kyverno.io/)
+#### JSON Schema (1)
 
-#### Tags
+The data models the API reads and writes.
 
-- Kubernetes
-- Policy
-- Security
+- [Kyverno Policy](https://apis.io/schemas/kyverno/kyverno-policy/)
 
-#### Properties
+#### JSON-LD (1)
 
-- [Documentation](https://kyverno.io/docs/introduction/)
-- [Getting Started](https://kyverno.io/docs/installation/)
-- [Reference](https://kyverno.io/docs/policy-types/)
-- [Changelog](https://kyverno.io/docs/releases/)
-- [GitHub Repository](https://github.com/kyverno/kyverno)
-- [Postman Collection](collections/kyverno-policy-reporter.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/kyverno-policy-reporter.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Linked-data contexts for the provider's vocabulary.
 
-### Kyverno CLI
+- [Kyverno Context](https://apis.io/jsonld/kyverno/kyverno-context/)
 
-The Kyverno CLI provides a command-line interface for applying and testing Kyverno policies against Kubernetes resources outside of a cluster. It can be used in CI/CD pipelines to validate resources before deployment, run policy tests, and interact with JMESPath expressions used in policy rules.
+#### Collections (8)
 
-- **Human URL:** [https://kyverno.io/docs/kyverno-cli/](https://kyverno.io/docs/kyverno-cli/)
+Postman and Open Collection request collections.
 
-#### Tags
+- [Kyverno Policy Reporter ClusterPolicyReports API](https://apis.io/collections/kyverno/open-kyverno-clusterpolicyreports-api/)
+- [Kyverno Policy Reporter ClusterPolicyReports Health API](https://apis.io/collections/kyverno/open-kyverno-health-api/)
+- [Kyverno Policy Reporter ClusterPolicyReports Namespaces API](https://apis.io/collections/kyverno/open-kyverno-namespaces-api/)
+- [Kyverno Policy Reporter ClusterPolicyReports Policies API](https://apis.io/collections/kyverno/open-kyverno-policies-api/)
+- [Kyverno Policy Reporter API](https://apis.io/collections/kyverno/open-kyverno-policy-reporter/)
+- [Kyverno Policy Reporter ClusterPolicyReports PolicyReports API](https://apis.io/collections/kyverno/open-kyverno-policyreports-api/)
+- [Kyverno Policy Reporter ClusterPolicyReports Results API](https://apis.io/collections/kyverno/open-kyverno-results-api/)
+- [Kyverno Policy Reporter ClusterPolicyReports Sources API](https://apis.io/collections/kyverno/open-kyverno-sources-api/)
 
-- CLI
-- Developer Tools
-- Kubernetes
-- Policy
+#### Governance rules (1)
 
-#### Properties
+Spectral rulesets for the provider's contracts.
 
-- [Documentation](https://kyverno.io/docs/kyverno-cli/)
-- [Reference](https://kyverno.io/docs/kyverno-cli/reference/kyverno/)
-- [GitHub Repository](https://github.com/kyverno/kyverno)
-- [Postman Collection](collections/kyverno-policy-reporter.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/kyverno-policy-reporter.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Kyverno — jsonschema rules](https://apis.io/rules/kyverno/kyverno-jsonschema-spectral-rules/)
 
-### Kyverno Policy Reporter API
+#### Security (1)
 
-The Kyverno Policy Reporter REST API provides endpoints for querying PolicyReport and ClusterPolicyReport custom resources generated by Kyverno. It exposes policy results, status counts, and resource-level violation data, and serves as the backend for the Policy Reporter UI.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://kyverno.github.io/policy-reporter/](https://kyverno.github.io/policy-reporter/)
+- [Kyverno Domain Security](https://apis.io/security/kyverno/kyverno-domain-security/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Observability
-- Policy Reports
-- REST API
+Published plans, tiers and prices.
 
-#### Properties
+- [Kyverno Plans Pricing](https://apis.io/plans/kyverno/kyverno-plans-pricing/)
 
-- [Documentation](https://kyverno.github.io/policy-reporter/)
-- [Reference](https://kyverno.github.io/policy-reporter/core/api-reference/)
-- [Getting Started](https://kyverno.github.io/policy-reporter/guide/getting-started/)
-- [GitHub Repository](https://github.com/kyverno/policy-reporter)
-- [OpenAPI](openapi/kyverno-policy-reporter-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/kyverno-policy-reporter.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/kyverno-policy-reporter.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Rate limits (1)
 
-## Common Properties
+Published request limits.
 
-- [LinkedIn](https://www.linkedin.com/company/nirmata)
+- [Kyverno Rate Limits](https://apis.io/rate-limits/kyverno/kyverno-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Kyverno Finops](https://apis.io/finops/kyverno/kyverno-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://kyverno.io/)
 - [Documentation](https://kyverno.io/docs/)
-- [Getting Started](https://kyverno.io/docs/installation/)
+- [Getting started](https://kyverno.io/docs/installation/)
 - [Changelog](https://kyverno.io/docs/releases/)
-- [GitHub Organization](https://github.com/kyverno)
-- [GitHub Repository](https://github.com/kyverno/kyverno)
 - [Blog](https://kyverno.io/blog/)
-- [Community](https://kyverno.io/community/)
-- [JSON Schema](json-schema/kyverno-policy-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/kyverno-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Integrations](https://kyverno.io/integrations)
-- [L L Ms Txt](https://kyverno.io/llms.txt)
+- [GitHub](https://github.com/kyverno)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 38.9** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 64.3 |
+| Contract quality | 48.8 |
+| Contract governance | 9.8 |
+| Operational transparency | 36.8 |
+| Developer ergonomics | 33.3 |
+| Access clarity | 7.9 |
+
+**Agent readiness 27.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | na |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.8** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/kyverno/](https://apis.io/providers/kyverno/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Kyverno: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/kyverno/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
